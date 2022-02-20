@@ -11,23 +11,24 @@
 class Solution {
 public:
     ListNode* mergeNodes(ListNode* head) {
-        ListNode* dummy=new ListNode(0);
-        ListNode* curr=dummy;
-        ListNode* he=head;
-        he=he->next;
-        int sum=0;
-        while(he!=nullptr){
-            if(he->val!=0){
-                sum+=he->val;
-                he=he->next;
+        ListNode* zero=head;
+        ListNode* curr=head->next;
+        while(curr!=nullptr){
+            if(curr->val != 0){
+                zero->val += curr->val;
             }
             else{
-                curr->next=new ListNode(sum);
-                sum=0;
-                he=he->next;
-                curr=curr->next;
+                //for last zero
+                if(curr->next==nullptr){
+                    zero->next=nullptr;
+                }
+                else{
+                    zero->next=curr;
+                }
+                zero=curr;//now again we sum to this zero node
             }
+            curr=curr->next;
         }
-        return dummy->next;
+        return head;
     }
 };
