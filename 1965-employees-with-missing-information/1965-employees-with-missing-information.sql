@@ -1,9 +1,9 @@
 # Write your MySQL query statement below
-select employee_id
-from Employees
-where employee_id not in (select employee_id from Salaries)
+select e.employee_id
+from Employees e left join Salaries s on e.employee_id = s.employee_id
+where s.salary is null
 union
-select employee_id
-from Salaries
-where employee_id not in (select employee_id from Employees)
+select s.employee_id
+from Salaries s left join Employees e on s.employee_id = e.employee_id
+where e.name is null
 order by employee_id;
