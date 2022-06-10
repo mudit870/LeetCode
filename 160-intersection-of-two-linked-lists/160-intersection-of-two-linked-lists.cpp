@@ -12,10 +12,12 @@ public:
         int len1=1;
         int len2=1;
         ListNode *A=headA,*B=headB;
+        //find length of headA
         while(A->next){
             len1++;
             A=A->next;
         }
+        //find length of headB
         while(B->next){
             len2++;
             B=B->next;
