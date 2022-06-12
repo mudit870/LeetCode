@@ -17,32 +17,48 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        if(!head) return NULL;
-        
-        Node* temp = head;
-        
-        while(temp){
-            Node* node = new Node(temp->val);
-            node->next = temp->next;
-            temp->next = node;
-            temp = node->next;
-        }
-        
-        temp = head;
-        while(temp){
-            temp->next->random = (temp->random)?temp->random->next:NULL;
-            temp = temp->next->next;
-        }
-        
-        Node* ans = head->next;
-        temp = head->next;
-        while(head){
-            head->next = temp->next;
-            head = head->next;
-            if(!head) break;
-            temp->next = head->next;
-            temp = temp->next;
-        }
-        return ans;
+        Node *iter = head; 
+        Node *front = head;
+
+          // First round: make copy of each node,
+          // and link them together side-by-side in a single list.
+          while (iter != NULL) {
+            front = iter->next;
+
+            Node *copy = new Node(iter->val);
+            iter->next = copy;
+            copy->next = front;
+
+            iter = front;
+          }
+
+          // Second round: assign random pointers for the copy nodes.
+          iter = head;
+          while (iter != NULL) {
+            if (iter->random != NULL) {
+              iter->next->random = iter->random->next;
+            }
+            iter = iter->next->next;
+          }
+
+          // Third round: restore the original list, and extract the copy list.
+          iter = head;
+          Node *pseudoHead = new Node(0);
+          Node *copy = pseudoHead;
+
+          while (iter != NULL) {
+            front = iter->next->next;
+
+            // extract the copy
+            copy->next = iter->next;
+
+            // restore the original list
+            iter->next = front;
+              
+            copy = copy -> next; 
+            iter = front;
+          }
+
+          return pseudoHead->next;
     }
 };
