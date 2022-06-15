@@ -22,7 +22,7 @@ class Solution{
         if(i+1<n && m[i+1][j]==1){
             m[i][j]=0;
             solve(m,n,i+1,j,s+"D");
-            m[i][j]=1;
+            m[i][j]=0;
         }
         if(j-1>=0 && m[i][j-1]==1){
             m[i][j]=0;
