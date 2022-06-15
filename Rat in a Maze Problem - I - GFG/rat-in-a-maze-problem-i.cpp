@@ -27,17 +27,17 @@ class Solution{
         if(j-1>=0 && m[i][j-1]==1){
             m[i][j]=0;
             solve(m,n,i,j-1,s+"L");
-            m[i][j]=1;
+            m[i][j]=0;
         }
         if(j+1<n && m[i][j+1]==1){
             m[i][j]=0;
             solve(m,n,i,j+1,s+"R");
-            m[i][j]=1;
+            m[i][j]=0;
         }
         if(i-1>=0 && m[i-1][j]==1){
             m[i][j]=0;
             solve(m,n,i-1,j,s+"U");
-            m[i][j]=1;
+            m[i][j]=0;
         }
     }
     
