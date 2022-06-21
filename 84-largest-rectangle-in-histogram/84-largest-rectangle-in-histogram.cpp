@@ -38,7 +38,9 @@ public:
         for(int i=0;i<n;i++){
             int width=right[i]-left[i]-1;
             int ans=heights[i]*width;
-            area=max(area,ans);
+            if(area<ans){
+                area=ans;
+            }
         }
         return area;
     }
