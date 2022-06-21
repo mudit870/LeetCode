@@ -34,7 +34,6 @@ public:
         }
         vector<int>width(n+1);
         for(int i=0;i<n;i++){
-            // cout<<right[i]<<" "<<left[i]<<endl;
             width[i]=right[i]-left[i]-1;
         }
         int area=0;
