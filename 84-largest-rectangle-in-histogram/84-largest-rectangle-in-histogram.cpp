@@ -6,11 +6,10 @@ public:
         vector<int>right(n);
         stack<int>s1;
         stack<int>s2;
-        
         left[0]=-1;
         s1.push(0);
         for(int i=1;i<n;i++){
-            while(s1.size()>0 && heights[i]<=heights[s1.top()]){
+            while(!s1.empty() && heights[i]<=heights[s1.top()]){
                 s1.pop();
             }
             if(s1.empty()){
@@ -20,11 +19,10 @@ public:
             }
             s1.push(i);
         }
-        
         right[n-1]=n;
         s2.push(n-1);
         for(int i=n-2;i>=0;i--){
-            while(s2.size()>0 && heights[i]<=heights[s2.top()]){
+            while(!s2.empty() && heights[i]<=heights[s2.top()]){
                 s2.pop();
             }
             if(s2.empty()){
@@ -34,10 +32,14 @@ public:
             }
             s2.push(i);
         }
+        vector<int>width(n+1);
+        for(int i=0;i<n;i++){
+            // cout<<right[i]<<" "<<left[i]<<endl;
+            width[i]=right[i]-left[i]-1;
+        }
         int area=0;
         for(int i=0;i<n;i++){
-            int width=right[i]-left[i]-1;
-            int ans=heights[i]*width;
+           int ans=heights[i]*width[i];
             if(area<ans){
                 area=ans;
             }
