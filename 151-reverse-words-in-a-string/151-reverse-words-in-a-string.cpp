@@ -1,24 +1,18 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        stack<string>st;
-        s+=" ";//to insert last word easily
-        for(int i=0;i<s.length();i++){
-            string temp="";
-            if(s[i]==' '){
-                continue;
-            }while(s[i]!=' ' && i<s.length()){
-                temp+=s[i];
-                i++;
-            }
-            st.push(temp);
-        }
         string ans="";
-        while(st.size()>1){ //last string not have space
-            ans+=st.top()+" ";
-            st.pop();
+        for(int i=s.length()-1;i>=0;i--){
+            if(s[i]==' ')
+                continue;
+            int j=i;
+            while(i>=0 && s[i]!=' '){
+                i--;
+            }
+            ans+=s.substr(i+1,j-i)+" ";
         }
-        ans+=st.top();
+        if(ans.back()==' ')//to remove last space added
+            ans.pop_back();
         return ans;
     }
 };
