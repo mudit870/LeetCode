@@ -10,31 +10,28 @@
  * };
  */
 class BSTIterator {
+private:
+    stack<TreeNode*>st;
 public:
-     stack<TreeNode*> st;
-     void Lefttree(TreeNode* root)
-    {
-        TreeNode* p = root;
-        while (p)
-        {
-            st.push(p);
-            p = p->left;
-        }
-    }
     BSTIterator(TreeNode* root) {
-        Lefttree(root);
+        pushAllLeft(root);
     }
     
     int next() {
-        TreeNode* top = st.top();
+        TreeNode* temp=st.top();
         st.pop();
-        if (top->right != NULL)
-            Lefttree(top->right);  
-     return top->val;
+        if(temp->right) pushAllLeft(temp->right);
+        return temp->val;
     }
     
     bool hasNext() {
-        return st.empty()? false : true;
+        return !st.empty(); //if stack not empty, mean next exists
+    }
+    void pushAllLeft(TreeNode* root){
+        while(root){
+            st.push(root);
+            root=root->left;
+        }
     }
 };
 
