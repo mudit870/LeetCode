@@ -11,17 +11,16 @@
  */
 class Solution {
 public:
-    int ans=0;
-     int findDiameter(TreeNode* root){
+    int height=0;
+    int findDiameter(TreeNode* root){
         if(root==nullptr)return 0;
-        int leftValue=findDiameter(root->left);
-        int rightValue=findDiameter(root->right);
-        ans=max(ans,leftValue+rightValue);
-        return 1+max(leftValue,rightValue);
+        int l=findDiameter(root->left);
+        int r=findDiameter(root->right);
+        height=max(height,l+r);
+        return max(l,r)+1;
     }
     int diameterOfBinaryTree(TreeNode* root) {
-        if(root==nullptr)return 0;
         findDiameter(root);
-        return ans;
+        return height;
     }
 };
