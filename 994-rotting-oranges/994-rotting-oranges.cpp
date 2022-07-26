@@ -1,40 +1,39 @@
 class Solution {
 public:
-    
     int orangesRotting(vector<vector<int>>& grid) {
-        if(grid.empty()) return -1;
-        vector<vector<int>>dir={{1,0},{0,1},{-1,0},{0,-1}};
+        int orange=0;
         int n=grid.size();
         int m=grid[0].size();
-        int time=0;
-        int count=0;
-        queue<int>mq;
+        queue<pair<int,int>>que;
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 if(grid[i][j]==1)
-                    count++;
+                    orange++;
                 if(grid[i][j]==2)
-                    mq.push(i*m+j);
+                    que.push({i,j});
             }
         }
-        if(count==0)
-            return 0;
-        while(!mq.empty()){
-            int size=mq.size();
-            while(size-- >0){
-                int idx=mq.front();
-                mq.pop();
-                int r=idx/m;
-                int c=idx%m;
+        vector<vector<int>> dir={{1,0},{0,1},{-1,0},{0,-1}};
+        if(orange==0)return 0;
+        int time=0;
+        
+        while(!que.empty()){
+            int size=que.size();
+            while(size--){
+                int row=que.front().first;
+                int col=que.front().second;
+                que.pop();
+                
                 for(auto d:dir){
-                    int row=d[0]+r;
-                    int col=d[1]+c;
-                    if(row<0 || col<0 || row>=n || col>=m || grid[row][col]!=1) continue;
-                    grid[row][col]=2;
-                    count--;
-                    mq.push(row*m+col);
-                    if(count==0)
-                        return time+1;
+                    int r=row+d[0];
+                    int c=col+d[1];
+                    
+                    if(r>=0 && c>=0 && r<n && c<m && grid[r][c]==1){
+                        que.push({r,c});
+                        grid[r][c]=0;
+                        orange--;
+                        if(orange==0)return time+1;
+                    }
                 }
             }
             time++;
