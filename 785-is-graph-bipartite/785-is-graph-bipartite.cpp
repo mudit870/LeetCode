@@ -1,14 +1,14 @@
 class Solution {
 public:
-     bool bfs(vector<vector<int>>& graph, int src,vector<int>& vis){
-        queue<int>que;
-        que.push(src);        
-        int color=0;//using 3 different color number
+    bool bfs(vector<vector<int>>& graph, int src,vector<int>& vis){
+        list<int>que;
+        que.push_back(src);        
+        int color=0;
         while(!que.empty()){
             int size=que.size();
             while(size--){
                 int rvtx=que.front();
-                que.pop();
+                que.pop_front();
                 if(vis[rvtx]!=-1){
                     if(color!=vis[rvtx])
                         return false; //conflict
@@ -17,7 +17,7 @@ public:
                 vis[rvtx]=color;
                 for(int v:graph[rvtx]){
                     if(vis[v]==-1)
-                        que.push(v);
+                        que.push_back(v);
                 }
             }
             color=(color+1)%2;
