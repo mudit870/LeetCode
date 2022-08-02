@@ -1,37 +1,41 @@
 class Solution {
 public:
-    bool isCycle(vector<vector<int>>& adjMatrix, vector<int>& visited, int idx){
-        if(visited[idx]==2)
-            return true;
-        
-        visited[idx]=2;
-        for(int i=0;i<adjMatrix[idx].size();i++){
-            if(visited[adjMatrix[idx][i]]!=1){
-                if(isCycle(adjMatrix,visited,adjMatrix[idx][i])){
-                    return true;
-                }
-            }
-        }
-        visited[idx]=1;
-        return false;
-    }
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        // basically if there is a cycle just return false
-        // we will mark 0 initally to all, if we visit the no. we mark it as 1 & 
-        // check all of its neighbours, when all of its neighbor visited we will mark it as 2
-        vector<vector<int>> adjMatrix(numCourses);
-        
+        vector<vector<int>>graph(numCourses);
+        vector<int>indegree(numCourses,0);
+        //make directed graph
         for(int i=0;i<prerequisites.size();i++){
-            adjMatrix[prerequisites[i][0]].push_back(prerequisites[i][1]);
+            graph[prerequisites[i][1]].push_back(prerequisites[i][0]);//1<-0
+            indegree[prerequisites[i][0]]++;
         }
-        vector<int> visited(numCourses,0);
-        for(int i=0;i<numCourses;i++){
-            if(visited[i]==0){
-                if(isCycle(adjMatrix,visited,i)){
-                    return false;
+        queue<int>que;
+        for(int i=0;i<indegree.size();i++){
+            if(indegree[i]==0)que.push(i);
+        }
+        int count=0;
+        while(!que.empty()){
+                int temp=que.front();//0
+                que.pop();
+                count++;
+            
+            for(int neighbour:graph[temp]){
+                indegree[neighbour]--;
+                
+                if(indegree[neighbour]==0){
+                    que.push(neighbour);
                 }
             }
+                // for(int i=0;i<graph[temp].size();i++){
+                //     indegree[graph[temp][i]]--;
+                //     if(indegree[graph[temp][i]]==0)
+                //         que.push(graph[temp][i]);
+                // }
         }
-        return true;
+        return count==numCourses;
     }
 };
+
+// [[1,0],[2,0],[3,1]]
+
+// 0->1,2
+// 1->3
